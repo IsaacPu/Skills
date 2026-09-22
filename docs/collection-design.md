@@ -12,15 +12,16 @@ Skills/
 ├── CONTRIBUTING.md                    # 新增、验证与 PR 约定
 ├── docs/
 │   └── collection-design.md           # 合集级设计决策
-└── <skill-name>/                      # 一个可独立使用的 skill
-    ├── SKILL.md
-    ├── agents/                        # 可选的 Codex UI 元数据
-    ├── references/                    # 可选的按需说明
-    ├── scripts/                       # 可选的可执行辅助工具
-    └── assets/                        # 可选的产物资源
+└── skills/
+    └── <skill-name>/                  # 一个可独立使用的 skill
+        ├── SKILL.md
+        ├── agents/                    # 可选的 Codex UI 元数据
+        ├── references/                # 可选的按需说明
+        ├── scripts/                   # 可选的可执行辅助工具
+        └── assets/                    # 可选的产物资源
 ```
 
-第一层直接放 skill 文件夹，避免额外嵌套造成安装或按路径引用时的歧义。随着数量增加，使用统一的命名前缀和 README 分类管理，而不是过早按目录树拆分。
+所有可安装 skill 统一放在 `skills/` 下，让技能目录、安装器扫描路径和 README 中的单项安装命令保持一致。随着数量增加，使用 README 分类管理，而不是过早按业务目录树拆分。
 
 ## 命名与分类
 
