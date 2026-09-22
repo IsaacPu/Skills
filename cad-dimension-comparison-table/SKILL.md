@@ -1,98 +1,98 @@
 ---
 name: cad-dimension-comparison-table
-description: Compare a CAD-based manual point-count table with an authoritative equipment point table in an explicitly scoped building or region, write differences into the manual-table layout, and audit row, column, mapping, and formatting coverage. Use for fire-alarm, evacuation, power-monitoring, electrical-fire, and similar takeoff reconciliation workbooks; do not use for generic financial or statistical comparisons.
+description: 在明确建筑或区域范围内，将 CAD 人工数图点位表与正式设备点位表双向对照，把差异回写到人工表版式，并审核行、列、映射及格式覆盖情况。适用于消防报警、疏散、消防电源监控、电气火灾等工程量统计核对；不适用于通用财务或统计表格比对。
 ---
 
-# CAD Dimension Comparison Table Skill
+# CAD 数图对照表技能
 
-Produce a comparison that a reviewer can trace cell by cell. Preserve the user's counted-table layout unless the user requests another presentation.
+输出应让复核人能逐格追溯。除非用户明确要求其他形式，否则保留用户人工统计表的原有版式。
 
-## Establish the comparison contract
+## 明确对照约定
 
-Before comparing, determine and record:
+开始对照前，确认并记录：
 
-- the authoritative source and the counted/manual source;
-- the exact building, region, phase, or row block in scope;
-- which worksheets/systems the user actually completed;
-- the row key for each sheet, such as box number, floor, loop, or zone;
-- the equipment-column mapping, including aliases, merged categories, and split categories;
-- the displayed difference convention if a numeric difference is requested.
+- 哪一份是正式依据表，哪一份是人工数图表；
+- 本次精确范围：建筑、区域、阶段或连续行区间；
+- 用户实际已完成的工作表或系统；
+- 各工作表的行键，例如箱号、楼层、回路或分区；
+- 设备列映射，包括别名、合并类别与拆分类别；
+- 如果用户要求显示差值，采用何种差值约定。
 
-Do not infer scope only from the first character of a box number. Use building labels, section markers, contiguous row blocks, neighboring context, and user-provided evidence together. Treat scope boundaries as an auditable decision.
+不能只根据箱号首字符推断范围。应结合建筑标识、分段标记、连续行区间、相邻上下文和用户提供的证据共同界定范围，并将范围边界视为可复核的判断。
 
-## Normalize without destroying meaning
+## 规范化但不损失含义
 
-Normalize keys and headers for matching while retaining the original text for output and evidence.
+匹配时可规范化行键和表头，但必须保留原始文字用于输出与追溯。
 
-- Normalize whitespace, common Chinese/English punctuation, letter case, full-width characters, and obvious separator variants.
-- Keep identifiers as text. Do not coerce box numbers or floor labels into numbers.
-- Do not remove qualifiers that distinguish equipment types, direction, size, installation method, or model.
-- Maintain explicit alias mappings for confirmed equivalent labels.
-- If one source splits a row or column and the other combines it, aggregate only after confirming semantic equivalence. Record the aggregation rule.
-- Detect duplicate normalized keys and do not silently use the first match. Resolve them by scope or aggregate only when justified.
+- 规范化空格、常见中英文标点、大小写、全角字符和明显的分隔符差异。
+- 箱号、楼层等标识必须保持文本，不得强制转为数值。
+- 不得移除能区分设备类型、方向、尺寸、安装方式或型号的限定词。
+- 仅对已确认等价的名称建立明确的别名映射。
+- 一方拆分而另一方合并的行或列，只有确认语义等价后才可汇总，并记录汇总规则。
+- 必须识别规范化后重复的行键，不能静默取第一条；应按范围消歧，或在有依据时汇总。
 
-## Compare in both directions
+## 双向核对
 
-For every in-scope sheet, perform all of these checks:
+对每个范围内工作表完成以下检查：
 
-1. Match rows by normalized key and columns by confirmed equipment mapping.
-2. Compare every mapped row-column intersection, distinguishing blank from numeric zero when the source meaning requires it.
-3. Find rows present in the counted table but absent from the authoritative table.
-4. Find rows present in the authoritative table but absent from the counted table, including rows whose counts are all zero except one equipment column.
-5. Find equipment columns present in either table but not mapped to the other.
-6. For every unmapped column, inspect in-scope non-zero cells before classifying it as:
-   - a genuine missing equipment category;
-   - a label alias;
-   - a key, subtotal, grouping, parameter, or non-comparable field.
-7. Check merged rows, split rows, duplicate keys, blank keys, repeated floor labels, and boundary rows.
+1. 按规范化行键匹配行，按已确认的设备映射匹配列。
+2. 对每个已映射的行列交点比较数值；当来源含义要求时，区分空白与数值零。
+3. 找出人工表中存在、正式表中不存在的行。
+4. 找出正式表中存在、人工表中不存在的行；即使该行只有一项设备非零也不能漏掉。
+5. 找出任一表中存在、但没有映射到另一表的设备列。
+6. 对每个未映射列，先检查范围内的非零单元格，再判定它是：
+   - 确实缺失的设备类别；
+   - 名称别名；
+   - 行键、小计、分组、参数或不可比字段。
+7. 检查合并行、拆分行、重复行键、空行键、重复楼层标签和范围边界行。
 
-Never conclude that a sheet has no differences solely because mapped cells match. Unmapped rows and columns are separate failure modes.
+不能仅因已映射单元格相同，就得出该表“没有差异”的结论；未映射行和未映射列是独立的漏检风险。
 
-## Write differences into the counted-table layout
+## 将差异回写到人工表版式
 
-Follow the user's formatting instructions first. Unless the user specifies otherwise:
+优先服从用户对格式的明确要求。若用户未另行说明：
 
-- leave identical cells unchanged and visually neutral;
-- when a nonblank counted value differs, replace the displayed content with `原值\n真实值：X` and color the complete text red;
-- when the counted cell is blank but the authoritative value is non-zero, use a light-orange fill and red text `真实值：X`;
-- when the authoritative source has a whole row missing from the counted table, reuse a reserved blank row or append a row that matches the table format, write the row key, and mark every non-zero authoritative value with the same light-orange/red treatment;
-- if a genuine authoritative equipment column has no counted-table column, extend the table only when that is needed to expose an in-scope non-zero omission; copy the neighboring header/body style and label it with the authoritative equipment name;
-- do not create a separate right-side comparison pane unless the user explicitly requests one.
+- 相同单元格保持原样，不作醒目标记；
+- 人工表原值非空且不同：将单元格内容改为 `原值\n真实值：X`，完整文字均用红色；
+- 人工表原值为空、正式值为非零：填充淡橙色底，使用红字 `真实值：X`；
+- 正式表有整行而人工表缺失时，优先复用预留空行；否则追加一行并复制原表格式，写入行键，将每项非零正式值均按淡橙底红字标记；
+- 若正式表确有人工表未包含的设备列，且范围内存在需要呈现的非零漏项，才扩展该列；复制相邻表头和正文格式，并使用正式设备名称；
+- 除非用户明确要求，不得在右侧新增独立的对照副表。
 
-If multiple source rows are legitimately aggregated into one output cell, the displayed original value must equal the compared aggregate, not an arbitrary component row. Add a compact note only when the aggregation would otherwise be misleading.
+若多个来源行确有依据地汇总到一个输出单元格，显示的原值必须是用于比较的汇总原值，不得随意选择其中一个组成行。仅在不写说明会造成误解时，补充简短注记。
 
-## Mandatory audit before delivery
+## 交付前必须审核
 
-Run an independent audit of the generated comparison data and the exported workbook.
+对生成的差异数据和导出的工作簿做一次独立审核。
 
-### Data audit
+### 数据审核
 
-- Recompute the comparison from the two sources, not from the formatted output.
-- Reconcile counts for matched rows, unmatched rows in both directions, mapped columns, unmapped columns, and difference cells.
-- Confirm every in-scope non-zero authoritative cell is either matched to a compared output cell or explicitly classified as non-comparable.
-- Confirm every red or orange output cell corresponds to a real difference.
-- Confirm identical values remain unmarked.
-- Sample at least one ordinary mismatch, one blank-to-value mismatch, one whole-row omission, one alias match, and one merged/split aggregation when present.
+- 基于两份来源表重新计算结果，而不是基于已格式化的输出表反推。
+- 核对已匹配行、双向未匹配行、已映射列、未映射列和差异单元格的数量。
+- 确认范围内正式表每个非零单元格，要么已匹配到输出表中的对照单元格，要么被明确归类为不可比。
+- 确认每个红色或淡橙色输出单元格都对应真实差异。
+- 确认相同值均未被标记。
+- 当这些情形存在时，分别抽查至少一处普通数值差异、空白变有值、整行漏项、别名匹配和合并/拆分汇总。
 
-### Workbook audit
+### 工作簿审核
 
-- Re-import the exported workbook.
-- Inspect representative key ranges and computed styles.
-- Scan for formula errors and accidental helper or comparison panes.
-- Render every changed worksheet and review headers, appended rows, red text, orange fills, wrapping, clipping, and row heights.
-- Compare unchanged regions against the counted-table source so unrelated content and formatting remain intact.
-- Open or verify the final saved path, not only an intermediate copy.
+- 重新导入导出的工作簿。
+- 检查代表性关键区域及其计算后的样式。
+- 检查公式错误，以及意外残留的辅助表或对照副表。
+- 渲染每个有改动的工作表，检查表头、追加行、红字、淡橙底、自动换行、裁切和行高。
+- 对比人工表未改动区域，确认无关内容和格式没有被改变。
+- 打开或验证最终保存路径，不能只验证中间副本。
 
-If an audit exposes a defect, update the mapping or builder, regenerate the comparison, and rerun the affected audit. Report unresolved ambiguity rather than hiding it.
+如果审核发现缺陷，应修正映射或生成逻辑、重新生成并重做受影响的审核。存在无法消除的歧义时必须如实报告，不能隐藏。
 
-## Deliverable report
+## 交付说明
 
-Summarize:
+交付时概述：
 
-- scope and included systems;
-- difference counts by system;
-- whole-row and whole-column omissions found;
-- mappings or aggregation rules that required judgment;
-- verification performed and any unresolved limitations.
+- 对照范围和纳入的系统；
+- 各系统差异数量；
+- 发现的整行与整列漏项；
+- 需要判断的映射或汇总规则；
+- 已完成的验证及尚未解决的限制。
 
-Do not call the result complete if any in-scope non-zero authoritative cell remains unexplained.
+若范围内正式表仍有任何非零单元格无法解释，不得称结果已完成。
