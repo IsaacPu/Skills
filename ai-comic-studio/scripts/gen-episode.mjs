@@ -92,7 +92,6 @@ async function generateFrame(frame, index, outputDir) {
   const prompt = buildFramePrompt(frame);
   const label = frame.id || `frame_${index}`;
   const apiKey = getApiKey();
-  
   console.log(`\n🎬 [${label}]`);
   console.log(`   🎨 ${prompt.slice(0, 100)}...`);
 
@@ -176,7 +175,6 @@ async function main() {
   for (let i = 0; i < frames.length; i++) {
     const frame = frames[i];
     console.log(`\n📸 [${i + 1}/${totalFrames}]`);
-    
     try {
       const result = await generateFrame(frame, i, outputDir);
       results.push({ ...result, success: true });
