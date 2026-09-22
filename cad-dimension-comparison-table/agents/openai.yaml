@@ -1,0 +1,6 @@
+interface:
+  display_name: "CAD Dimension Comparison Table Skill"
+  short_description: "双向比对 CAD 数量统计表与正式点位表，审核漏项、映射及差异标注"
+  default_prompt: "Use $cad-dimension-comparison-table to compare my CAD-based counted table with the authoritative point table, audit the result, and produce an in-place difference workbook."
+policy:
+  allow_implicit_invocation: true
