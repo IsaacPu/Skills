@@ -7,6 +7,7 @@
 | 分类 | Skill | 用途 | 状态 |
 | --- | --- | --- | --- |
 | 表格审核 | [CAD Dimension Comparison Table Skill](./cad-dimension-comparison-table/) | 对照正式点位表与 CAD 人工统计表，按明确范围双向核对，并在人工表版式中回写差异。 | 已验证 |
+| AI 漫剧 | [AI Comic Studio](./ai-comic-studio/) | 用角色、场景和分镜 JSON 组织 AI 漫剧出图；明确第三方 API、尺寸和一致性检查边界。 | 已审核，待 API 实测 |
 
 ## 合集约定
 
